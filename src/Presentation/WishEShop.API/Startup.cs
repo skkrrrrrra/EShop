@@ -25,6 +25,7 @@ namespace EShop.API
 			
 
 			services.AddSingleton(configurationObject);
+			//TODO добавить все классы и интерфейсы в DI
 			PersistenceConfiguration.AddServices(services, configurationObject.ConnectionString);
 			ApplicationConfiguration.AddServices(services);
 

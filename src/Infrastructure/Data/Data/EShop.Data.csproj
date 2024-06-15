@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\EShop.Common\EShop.Common.csproj" />
     <ProjectReference Include="..\..\..\Core\EShop.Domain\EShop.Domain.csproj" />
   </ItemGroup>
 

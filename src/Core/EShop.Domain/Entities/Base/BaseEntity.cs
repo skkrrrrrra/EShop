@@ -2,6 +2,8 @@
 
 public class BaseEntity
 {
+	public BaseEntity() { }
+
 	public BaseEntity(long id, DateTime createdAt, DateTime updatedAt, bool isDeleted, DateTime? deletedAt)
 	{
 		Id = id;

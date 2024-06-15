@@ -8,6 +8,7 @@ public static class Program
 		CreateHostBuilder(args)
 			.Build();
 
+	//TODO пересмотреть возможность реализации без стартапа
 	private static IHostBuilder CreateHostBuilder(string[] args) =>
 		Host.CreateDefaultBuilder(args)
 			.ConfigureWebHostDefaults(builder =>

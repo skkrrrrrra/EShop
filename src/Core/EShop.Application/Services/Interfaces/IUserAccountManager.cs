@@ -1,11 +1,10 @@
 ﻿using EShop.Application.Requests.Auth;
-using EShop.Application.Users.Commands.CreateUser;
+using EShop.Application.Users.Commands;
 using EShop.Domain.Entities;
 
-namespace EShop.Application.Services.Interfaces
+namespace EShop.Application.Services.Interfaces;
+
+public interface IUserAccountManager
 {
-	public interface IUserAccountManager
-	{
-		Task<User> CreateAsync(CreateUserCommand request);
-	}
+	Task<User> ComposeUserAsync(RegisterRequest request);
 }

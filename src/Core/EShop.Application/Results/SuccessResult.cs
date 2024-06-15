@@ -8,9 +8,10 @@ namespace EShop.Application.Results
 		{
 			Data = data;
 		}
+
 		public override ResultType Type => ResultType.Success;
 
-		public override List<string> Errors => new();
+		public override string Error => string.Empty;
 
 		public override T Data { get; }
 	}

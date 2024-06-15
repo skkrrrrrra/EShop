@@ -1,42 +1,124 @@
-﻿using EShop.Domain.Entities;
-using EShop.Domain.Interfaces.Base;
+﻿using Data;
+using EShop.Common.Helpers;
+using EShop.Domain.Entities;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EShop.Data.Repositories.Users
 {
 	public class UserRepository : IUserRepository
-	{ 
-		private readonly DbContext _dbContext;
+	{
+		private readonly PostgresDbContext _dbContext;
+		private readonly ILogger<UserRepository> _logger;
 
-		public UserRepository(DbContext dbContext)
+		public UserRepository(PostgresDbContext dbContext, ILogger<UserRepository> logger)
 		{
 			_dbContext = dbContext;
+			_logger = logger;
 		}
 
-		public Task<bool> AddAsync(User entity)
+		public async Task<bool> AddAsync(User entity)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				await _dbContext.Users.AddAsync(entity);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return false;
+			}
 		}
 
-		public Task<User> GetByIdAsync(int id)
+		public async Task<User> GetByIdAsync(int id)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var user = await _dbContext
+					.Users
+					.FirstOrDefaultAsync(item =>
+						item.Id == id
+						&& item.IsDeleted == false);
+
+				return user;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return null;
+			}
 		}
 
-		public Task<bool> RemoveAsync(User entity)
+		public async Task<bool> RemoveAsync(User entity)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var item = await _dbContext
+					.Users
+					.AsNoTracking()
+					.FirstOrDefaultAsync(item =>
+						item.Id == entity.Id
+						|| item.Username == entity.Username
+						|| item.Email == entity.Email
+						|| item.PhoneNumber == entity.PhoneNumber);
+
+				item.IsDeleted = true;
+				item.DeletedAt = DateHelper.GetCurrentDateTime();
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return false;
+			}
 		}
 
-		public Task<bool> RemoveByIdAsync(long id)
+		public async Task<bool> RemoveByIdAsync(long id)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var item = await _dbContext
+					.Users
+					.AsNoTracking()
+					.FirstOrDefaultAsync(item => item.Id == id);
+
+				item.IsDeleted = true;
+				item.DeletedAt = DateHelper.GetCurrentDateTime();
+
+				return true;
+
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return false;
+			}
 		}
 
-		public Task<bool> UpdateAsync(User entity)
+		public async Task<bool> UpdateAsync(User entity)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var item = await _dbContext
+						.Users
+						.AsNoTracking()
+						.FirstOrDefaultAsync(item => item.Id == entity.Id
+						|| item.Username == entity.Username
+						|| item.Email == entity.Email);
+
+				item.IsDeleted = true;
+				item.DeletedAt = DateHelper.GetCurrentDateTime();
+				
+				return true;
+			}
+			catch(Exception ex)
+			{
+				_logger.LogError(ex, ex.Message);
+				return false;
+			}
 		}
 	}
 }

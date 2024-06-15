@@ -6,6 +6,6 @@ namespace EShop.Application.Results
 	{
 		public abstract ResultType Type { get; }
 		public abstract T Data { get; }
-		public abstract List<string> Errors { get; }
+		public abstract string Error { get; }
 	}
 }
