@@ -1,4 +1,6 @@
-﻿using EShop.Application.Results;
+﻿using EShop.Application.Requests.Auth;
+using EShop.Application.Responses.Auth;
+using EShop.Application.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

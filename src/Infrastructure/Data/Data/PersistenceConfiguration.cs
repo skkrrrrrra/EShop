@@ -8,7 +8,7 @@ namespace EShop.Data
 	{
 		public static void AddServices(IServiceCollection serviceCollection, string connectionString)
 		{
-			serviceCollection.AddDbContext<PostgreDbContext>(options => options.UseNpgsql(connectionString));
+			serviceCollection.AddDbContext<PostgresDbContext>(options => options.UseNpgsql(connectionString));
 		}
 	}
 }

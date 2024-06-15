@@ -1,4 +1,5 @@
-﻿using EShop.Domain.Entities;
+﻿using EShop.Common.Helpers;
+using EShop.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 
 namespace EShop.Application
@@ -21,6 +22,7 @@ namespace EShop.Application
 					Issuer = _configuration["Jwt:Issuer"],
 					Audience = _configuration["Jwt:Audience"],
 					Key = _configuration["Jwt:Key"],
+					ExpirationDate = DateHelper.GetCurrentDateTime().AddTicks(long.Parse(_configuration["Jwt:ExpirationDate"])),
 				}
 			};
 		}

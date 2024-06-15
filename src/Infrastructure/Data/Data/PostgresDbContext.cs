@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
-	public class PostgreDbContext : DbContext
+	public class PostgresDbContext : DbContext
 	{
-		public PostgreDbContext(DbContextOptions options) : base(options)
+		public PostgresDbContext(DbContextOptions options) : base(options)
 		{
 
 		}
