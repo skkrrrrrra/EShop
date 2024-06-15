@@ -1,5 +1,4 @@
 ﻿using EShop.Domain.Entities.Base;
-using EShop.Domain.Enums;
 
 namespace EShop.Domain.Entities;
 

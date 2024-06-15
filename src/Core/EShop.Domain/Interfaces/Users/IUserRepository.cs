@@ -1,9 +1,8 @@
 ﻿using EShop.Domain.Entities;
 using EShop.Domain.Interfaces.Base;
 
-namespace EShop.Domain.Interfaces.Users
+namespace EShop.Domain.Interfaces.Users;
+
+public interface IUserRepository : IRepository<User>
 {
-	public interface IUserRepository : IRepository<User>
-	{
-	}
 }

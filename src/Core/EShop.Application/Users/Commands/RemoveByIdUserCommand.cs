@@ -1,12 +1,11 @@
 ﻿using EShop.Application.Users.Commands.Base;
 
-namespace EShop.Application.Users.Commands
+namespace EShop.Application.Users.Commands;
+
+public class RemoveByIdUserCommand : UserCommand
 {
-	public class RemoveByIdUserCommand : UserCommand
+	public RemoveByIdUserCommand(long id)
 	{
-		public RemoveByIdUserCommand(long id)
-		{
-			Id = id;
-		}
+		Id = id;
 	}
 }

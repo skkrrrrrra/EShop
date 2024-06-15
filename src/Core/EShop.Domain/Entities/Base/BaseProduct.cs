@@ -2,5 +2,5 @@
 
 public class BaseProduct : BaseEntity
 {
-	public 
+	
 }

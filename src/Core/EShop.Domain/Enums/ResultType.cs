@@ -1,8 +1,7 @@
-﻿namespace EShop.Domain.Enums
+﻿namespace EShop.Domain.Enums;
+
+public enum ResultType
 {
-	public enum ResultType
-	{
-		Success,
-		Invalid,
-	}
+	Success,
+	Invalid,
 }

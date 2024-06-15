@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EShop.Application.Requests.Auth;
 using EShop.Application.Services.Interfaces;
-using EShop.Application.Users.Commands;
 using EShop.Common.Helpers;
 using EShop.Domain.Entities;
 using System.Security.Cryptography;

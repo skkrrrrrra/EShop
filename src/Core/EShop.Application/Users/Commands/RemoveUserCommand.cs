@@ -1,16 +1,15 @@
 ﻿using EShop.Application.Users.Commands.Base;
 using EShop.Domain.Enums;
 
-namespace EShop.Application.Users.Commands
+namespace EShop.Application.Users.Commands;
+
+public class RemoveUserCommand : UserCommand
 {
-	public class RemoveUserCommand : UserCommand
+	public RemoveUserCommand(long id, string username, string email, string phoneNumber)
 	{
-		public RemoveUserCommand(long id, string username, string email, string phoneNumber)
-		{
-			Id = id;
-			Username = username;
-			Email = email;
-			PhoneNumber = phoneNumber;
-		}
+		Id = id;
+		Username = username;
+		Email = email;
+		PhoneNumber = phoneNumber;
 	}
 }

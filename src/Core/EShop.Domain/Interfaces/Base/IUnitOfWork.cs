@@ -1,10 +1,9 @@
 ﻿using EShop.Domain.Interfaces.Users;
 
-namespace EShop.Domain.Interfaces.Base
+namespace EShop.Domain.Interfaces.Base;
+
+public interface IUnitOfWork
 {
-	public interface IUnitOfWork
-	{
-		IUserRepository Users { get; }
-		Task CompleteAsync();
-	}
+	IUserRepository Users { get; }
+	Task CompleteAsync();
 }
