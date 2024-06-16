@@ -5,7 +5,7 @@ using EShop.Domain.Interfaces.Base;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.Extensions.Logging;
 
-namespace EShop.Data.Repositories.Services;
+namespace EShop.Application.Services;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
@@ -15,11 +15,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 	private readonly ILogger<UserRepository> _logger;
 	private readonly IMapper _mapper;
 	public IUserRepository Users { get; private set; }
-	
+
 
 	public UnitOfWork(
 		PostgresDbContext dbContext,
-		ILogger<UserRepository> logger, 
+		ILogger<UserRepository> logger,
 		IMapper mapper)
 	{
 		_dbContext = dbContext;

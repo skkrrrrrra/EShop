@@ -2,7 +2,7 @@
 
 namespace EShop.Application.Users.Commands;
 
-public class RemoveByIdUserCommand : UserCommand
+public class RemoveByIdUserCommand : UserCommand<long>
 {
 	public RemoveByIdUserCommand(long id)
 	{

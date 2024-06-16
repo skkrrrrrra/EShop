@@ -1,6 +1,5 @@
-﻿namespace EShop.Domain.Constants
+﻿namespace EShop.Domain.Constants;
+
+public static class Columns
 {
-	public static class Columns
-	{
-	}
 }

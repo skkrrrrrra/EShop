@@ -1,7 +1,6 @@
-﻿namespace EShop.Application.Responses.Auth
+﻿namespace EShop.Application.Responses.Auth;
+
+public class LoginResponse
 {
-	public class LoginResponse
-	{
-		public string Token { get; set; } = string.Empty;
-	}
+	public string Token { get; set; } = string.Empty;
 }

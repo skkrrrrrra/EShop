@@ -1,6 +1,5 @@
 ﻿using EShop.Domain.Constants;
 using EShop.Domain.Entities.Base;
-using EShop.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShop.Domain.Entities;

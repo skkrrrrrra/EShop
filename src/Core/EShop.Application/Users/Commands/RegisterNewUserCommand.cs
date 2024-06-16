@@ -1,7 +1,6 @@
 ﻿using EShop.Application.Results;
 using EShop.Application.Users.Commands.Base;
 using EShop.Domain.Enums;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace EShop.Application.Users.Commands;

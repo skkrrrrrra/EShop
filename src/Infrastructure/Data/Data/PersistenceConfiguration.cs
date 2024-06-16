@@ -1,5 +1,4 @@
-﻿using Data;
-using EShop.Data.Repositories.Users;
+﻿using EShop.Data.Repositories.Users;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

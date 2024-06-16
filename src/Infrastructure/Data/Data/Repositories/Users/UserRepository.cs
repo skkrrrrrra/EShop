@@ -1,126 +1,124 @@
 ﻿using AutoMapper;
-using Data;
 using EShop.Domain.Entities;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace EShop.Data.Repositories.Users
+namespace EShop.Data.Repositories.Users;
+
+public class UserRepository : IUserRepository
 {
-	public class UserRepository : IUserRepository
+	private readonly IMapper _mapper;
+
+	private readonly PostgresDbContext _dbContext;
+	private readonly DbSet<User> _usersDbSet;
+	private readonly ILogger<UserRepository> _logger;
+
+	public UserRepository(
+		PostgresDbContext dbContext, 
+		ILogger<UserRepository> logger,
+		IMapper mapper)
 	{
-		private readonly IMapper _mapper;
+		_dbContext = dbContext;
+		_usersDbSet = _dbContext.Users;
+		_logger = logger;
+		_mapper = mapper;
+	}
 
-		private readonly PostgresDbContext _dbContext;
-		private readonly DbSet<User> _usersDbSet;
-		private readonly ILogger<UserRepository> _logger;
-
-		public UserRepository(
-			PostgresDbContext dbContext, 
-			ILogger<UserRepository> logger,
-			IMapper mapper)
+	public async Task<bool> AddAsync(User entity)
+	{
+		try
 		{
-			_dbContext = dbContext;
-			_usersDbSet = _dbContext.Users;
-			_logger = logger;
-			_mapper = mapper;
+			await _usersDbSet.AddAsync(entity);
+
+			_logger.LogInformation("User was add successfully");
+			return true;
 		}
-
-		public async Task<bool> AddAsync(User entity)
+		catch (Exception ex)
 		{
-			try
-			{
-				await _usersDbSet.AddAsync(entity);
-
-				_logger.LogInformation("User was add successfully");
-				return true;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, ex.Message);
-				return false;
-			}
+			_logger.LogError(ex, ex.Message);
+			return false;
 		}
+	}
 
-		public async Task<User> GetByIdAsync(long id)
+	public async Task<User> GetByIdAsync(long id)
+	{
+		try
 		{
-			try
-			{
-				var result = await _usersDbSet.FirstOrDefaultAsync(item => item.Id == id);
-				return result;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, ex.Message);
-				return null;
-			}
+			var result = await _usersDbSet.FirstOrDefaultAsync(item => item.Id == id);
+			return result;
 		}
-
-		public async Task<bool> RemoveAsync(User entity)
+		catch (Exception ex)
 		{
-			try
-			{
-				var item = await _usersDbSet
-					.FirstOrDefaultAsync(item => 
-						item.Id == entity.Id
-						|| item.Email == entity.Email
-						|| item.PhoneNumber == entity.PhoneNumber);
-
-				if(item is not null)
-				{
-					_usersDbSet.Remove(item);
-
-					_logger.LogInformation("User was remove successfully");
-					return true;
-				}
-
-				_logger.LogWarning("Item was null. Can't delete item.");
-				return false;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, ex.Message);
-				return false;
-			}
+			_logger.LogError(ex, ex.Message);
+			return null;
 		}
+	}
 
-		public async Task<bool> RemoveByIdAsync(long id)
+	public async Task<bool> RemoveAsync(User entity)
+	{
+		try
 		{
-			try
-			{
-				var item = await GetByIdAsync(id);
-				if(item is not null)
-				{
-					var result = _usersDbSet.Remove(item);
+			var item = await _usersDbSet
+				.FirstOrDefaultAsync(item => 
+					item.Id == entity.Id
+					|| item.Email == entity.Email
+					|| item.PhoneNumber == entity.PhoneNumber);
 
-					_logger.LogInformation("User was update successfully");
-					return true;
-				}
-
-				_logger.LogWarning("Item was null. Can't delete item.");
-				return false;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, ex.Message);
-				return false;
-			}
-		}
-
-		public async Task<bool> UpdateAsync(User entity)
-		{
-			var item = await GetByIdAsync(entity.Id);
 			if(item is not null)
 			{
-				item = _mapper.Map<User>(entity);
-				_usersDbSet.Update(item);
+				_usersDbSet.Remove(item);
+
+				_logger.LogInformation("User was remove successfully");
+				return true;
+			}
+
+			_logger.LogWarning("Item was null. Can't delete item.");
+			return false;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, ex.Message);
+			return false;
+		}
+	}
+
+	public async Task<bool> RemoveByIdAsync(long id)
+	{
+		try
+		{
+			var item = await GetByIdAsync(id);
+			if(item is not null)
+			{
+				var result = _usersDbSet.Remove(item);
 
 				_logger.LogInformation("User was update successfully");
 				return true;
 			}
 
-			_logger.LogWarning("Item was null. Can't update item.");
+			_logger.LogWarning("Item was null. Can't delete item.");
 			return false;
 		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, ex.Message);
+			return false;
+		}
+	}
+
+	public async Task<bool> UpdateAsync(User entity)
+	{
+		var item = await GetByIdAsync(entity.Id);
+		if(item is not null)
+		{
+			item = _mapper.Map<User>(entity);
+			_usersDbSet.Update(item);
+
+			_logger.LogInformation("User was update successfully");
+			return true;
+		}
+
+		_logger.LogWarning("Item was null. Can't update item.");
+		return false;
 	}
 }

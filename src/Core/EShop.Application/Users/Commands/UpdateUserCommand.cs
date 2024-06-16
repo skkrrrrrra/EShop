@@ -3,7 +3,7 @@ using EShop.Domain.Enums;
 
 namespace EShop.Application.Users.Commands;
 
-public class UpdateUserCommand : UserCommand
+public class UpdateUserCommand : UserCommand<long>
 {
 	public UpdateUserCommand(long id, string username, string email, string phoneNumber,
 		string first, string last, Sex sex)

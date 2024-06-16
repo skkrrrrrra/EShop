@@ -3,7 +3,7 @@ using EShop.Domain.Interfaces.Base;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data;
+namespace EShop.Data;
 
 public class PostgresDbContext : DbContext, IUnitOfWork
 {

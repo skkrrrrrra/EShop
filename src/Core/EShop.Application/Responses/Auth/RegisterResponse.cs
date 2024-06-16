@@ -1,6 +1,5 @@
-﻿namespace EShop.Application.Responses.Auth
+﻿namespace EShop.Application.Responses.Auth;
+
+public class RegisterResponse
 {
-	public class RegisterResponse
-	{
-	}
 }
