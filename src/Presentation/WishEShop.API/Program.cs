@@ -1,6 +1,4 @@
-using EShop.API;
-
-namespace Eshop.API;
+namespace EShop.API;
 
 public static class Program
 {
@@ -8,11 +6,12 @@ public static class Program
 		CreateHostBuilder(args)
 			.Build();
 
-	//TODO пересмотреть возможность реализации без стартапа
-	private static IHostBuilder CreateHostBuilder(string[] args) =>
-		Host.CreateDefaultBuilder(args)
+	private static IHostBuilder CreateHostBuilder(string[] args)
+	{
+		return Host.CreateDefaultBuilder(args)
 			.ConfigureWebHostDefaults(builder =>
 			{
 				builder.UseStartup<Startup>();
 			});
+	}
 }

@@ -1,17 +1,19 @@
-﻿using Data;
-using EShop.Application;
+﻿using System.Text;
+using EShop.API.Middleware;
 using EShop.Application.Services;
+using EShop.Application;
 using EShop.Data;
 using EShop.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Data;
-using System.Text;
+using Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace EShop.API;
 
-public class Startup
+public sealed class Startup
 {
 	private readonly IConfiguration _configuration;
 
@@ -22,20 +24,27 @@ public class Startup
 		ConfigurationObjectBuilder configObjectBuilder = new(_configuration);
 		var configurationObject = configObjectBuilder.Configure();
 
-		
-
 		services.AddSingleton(configurationObject);
-		//TODO добавить все классы и интерфейсы в DI
 		PersistenceConfiguration.AddServices(services, configurationObject.ConnectionString);
 		ApplicationConfiguration.AddServices(services);
+		AddAuthorizationServices(services, configurationObject);
+
+		services.Configure<ForwardedHeadersOptions>(options =>
+		{
+			options.ForwardedHeaders =
+				ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+			options.KnownNetworks.Clear();
+			options.KnownProxies.Clear();
+		});
 
 		services.AddControllers();
+		services.AddRouting(options => options.LowercaseUrls = true);
 
 		services.AddSwaggerGen(c =>
 		{
 			c.SwaggerDoc("v1", new OpenApiInfo
 			{
-				Title = "Diary API",
+				Title = "Template API",
 				Version = "v1"
 			});
 			c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -80,6 +89,8 @@ public class Startup
 		});
 	}
 
+
+
 	public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 	{
 		app.UseForwardedHeaders();
@@ -89,7 +100,7 @@ public class Startup
 			app.UseSwagger();
 			app.UseSwaggerUI();
 		}
-
+		app.UseGlobalExceptionHandler();
 		app.UseHttpsRedirection();
 		app.UseAuthentication();
 		app.UseRouting();
@@ -125,5 +136,9 @@ public class Startup
 				};
 				options.RequireHttpsMetadata = false;
 			});
+
+		services.AddIdentity<User, IdentityRole>()
+			.AddUserManager<UserAccountManager>()
+			.AddUserStore<PostgresDbContext>();
 	}
 }

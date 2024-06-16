@@ -1,9 +1,11 @@
 ﻿using EShop.Domain.Entities;
+using EShop.Domain.Interfaces.Base;
+using EShop.Domain.Interfaces.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data;
 
-public class PostgresDbContext : DbContext
+public class PostgresDbContext : DbContext, IUnitOfWork
 {
 	public PostgresDbContext(DbContextOptions options) : base(options)
 	{
@@ -14,4 +16,12 @@ public class PostgresDbContext : DbContext
 	public DbSet<UserProfile> Profiles { get; set; }
 	public DbSet<Category> Categories { get; set; }
 	public DbSet<Product> Products { get; set; }
+
+	IUserRepository IUnitOfWork.Users => throw new NotImplementedException();
+
+	public async Task<bool> CompleteAsync()
+	{
+		var success = await SaveChangesAsync() > 0;
+		return success;
+	}
 }
