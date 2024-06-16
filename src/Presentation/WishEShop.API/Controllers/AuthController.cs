@@ -32,7 +32,6 @@ public class AuthController : ControllerBase
 		_userAccountManager = userAccountManager;
 		_logger = logger;
 	}
-	//TODO переписать userManager и SignInManager на свои реализации
 
 	public async Task<Result<IdentityResult>> RegisterAsync(RegisterRequest request)
 	{
@@ -46,7 +45,13 @@ public class AuthController : ControllerBase
 			var registerCommand = new RegisterNewUserCommand(request.Username, request.Email, request.PhoneNumber,
 				request.First, request.Last, request.Sex);
 			var result = await _mediator.Send(registerCommand);
-			return new InvalidResult<IdentityResult>(result.ToString());
+
+			if(result.Data.Succeeded == false)
+			{
+				return new InvalidResult<IdentityResult>(string.Join(";\n", ModelState.Select(item => item.Value)));
+			}
+
+			return result;
 		}
 		catch (Exception ex)
 		{

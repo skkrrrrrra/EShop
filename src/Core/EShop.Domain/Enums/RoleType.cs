@@ -1,6 +1,6 @@
 ﻿namespace EShop.Domain;
 
-public enum Role
+public enum RoleType
 {
 	Customer,
 	Admin

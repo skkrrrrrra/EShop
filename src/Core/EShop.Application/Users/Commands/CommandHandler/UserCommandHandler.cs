@@ -1,4 +1,5 @@
-﻿using EShop.Application.Results;
+﻿using EShop.Application.Responses.Auth;
+using EShop.Application.Results;
 using EShop.Application.Services.Interfaces;
 using EShop.Domain.Interfaces.Base;
 using EShop.Domain.Interfaces.Users;
@@ -7,7 +8,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EShop.Application.Users.Commands.CommandHandler;
 
-public class UserCommandHandler : IRequestHandler<RegisterNewUserCommand, Result<IdentityResult>>
+public class UserCommandHandler :
+	IRequestHandler<RegisterNewUserCommand, Result<IdentityResult>>,
+	IRequestHandler<LoginUserCommand, Result<LoginResponse>>
 {
 	private readonly IUserRepository _userRepository;
 	private readonly IUserAccountManager _userAccountManager;
@@ -15,14 +18,21 @@ public class UserCommandHandler : IRequestHandler<RegisterNewUserCommand, Result
 
 	public UserCommandHandler(IUserRepository userRepository, IUserAccountManager userAccountManager, IUnitOfWork unitOfWork)
 	{
-		_userRepository = userRepository;	
+		_userRepository = userRepository;
 		_userAccountManager = userAccountManager;
 		_unitOfWork = unitOfWork;
-	}
+	}	
 
 	public async Task<Result<IdentityResult>> Handle(RegisterNewUserCommand request, CancellationToken cancellationToken)
 	{
 		var result = await _userAccountManager.RegisterAsync(request);
+		await _unitOfWork.CompleteAsync();
+		return result;
+	}
+
+	public async Task<Result<LoginResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+	{
+		var result = await _userAccountManager.LoginAsync(request);
 		await _unitOfWork.CompleteAsync();
 		return result;
 	}

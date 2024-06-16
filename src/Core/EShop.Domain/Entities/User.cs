@@ -1,8 +1,11 @@
-﻿using EShop.Domain.Entities.Base;
+﻿using EShop.Domain.Constants;
+using EShop.Domain.Entities.Base;
 using EShop.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShop.Domain.Entities;
 
+[Table(Tables.Users)]
 public class User : BaseEntity
 {
 	public User(long id, DateTime createdAt, DateTime updatedAt, bool isDeleted, DateTime? deletedAt,

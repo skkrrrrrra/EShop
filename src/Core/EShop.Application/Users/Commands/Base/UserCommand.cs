@@ -4,7 +4,6 @@ using MediatR;
 namespace EShop.Application.Users.Commands.Base;
 
 public class UserCommand<TEntity> : IRequest<TEntity>
-	where TEntity : class
 {
 	public long Id { get; set; }
 	public string Username { get; set; }

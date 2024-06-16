@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Data;
 using Microsoft.AspNetCore.Identity;
+using EShop.Data.Common;
 
 namespace EShop.API;
 
@@ -23,6 +24,8 @@ public sealed class Startup
 	{
 		ConfigurationObjectBuilder configObjectBuilder = new(_configuration);
 		var configurationObject = configObjectBuilder.Configure();
+
+		services.AddFluentMigrator(configurationObject.ConnectionString, typeof(SqlMigration).Assembly);
 
 		services.AddSingleton(configurationObject);
 		PersistenceConfiguration.AddServices(services, configurationObject.ConnectionString);
@@ -94,12 +97,9 @@ public sealed class Startup
 	public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 	{
 		app.UseForwardedHeaders();
-		if (env.IsDevelopment())
-		{
-			app.UseCors("MyAllowedOrigins");
-			app.UseSwagger();
-			app.UseSwaggerUI();
-		}
+		app.UseCors("MyAllowedOrigins");
+		app.UseSwagger();
+		app.UseSwaggerUI();
 		app.UseGlobalExceptionHandler();
 		app.UseHttpsRedirection();
 		app.UseAuthentication();
