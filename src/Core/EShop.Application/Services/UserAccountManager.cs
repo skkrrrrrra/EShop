@@ -47,6 +47,7 @@ public class UserAccountManager : UserManager<User>, IUserAccountManager
 		_userRepository = userRepository;
 	}
 
+
 	public async Task<Result<IdentityResult>> RegisterAsync(RegisterNewUserCommand registerCommand)
 	{
 		var user = _mapper.Map<User>(registerCommand);
