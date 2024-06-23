@@ -7,4 +7,6 @@ public class Role : BaseEntity
 {
 	public string Title { get; set; }
 	public RoleType RoleType { get; set; }
+
+	public virtual User User { get; set; }
 }

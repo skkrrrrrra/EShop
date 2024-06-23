@@ -6,6 +6,7 @@ using EShop.Application.Services.Interfaces;
 using EShop.Application.Users.Commands;
 using EShop.Domain;
 using EShop.Domain.Entities;
+using EShop.Domain.Enums;
 using EShop.Domain.Interfaces.Audit;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.AspNetCore.Identity;
@@ -53,11 +54,7 @@ public class UserAccountManager : UserManager<User>, IUserAccountManager
 		user.Profile = userProfile;
 
 		var result = await CreateAsync(user, registerCommand.Password);
-		if (result.Succeeded)
-		{
-			result = await AddToRoleAsync(user, Role.Customer.ToString());
-		}
-		else
+		if (result.Succeeded == false)
 		{
 			return new InvalidResult<IdentityResult>(string.Join(";\n", result.Errors));
 		}

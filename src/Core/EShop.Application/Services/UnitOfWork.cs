@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Data;
-using EShop.Data.Repositories.Users;
+using EShop.Data;
+using EShop.Data.Repositories;
 using EShop.Domain.Interfaces.Base;
 using EShop.Domain.Interfaces.Users;
 using Microsoft.Extensions.Logging;

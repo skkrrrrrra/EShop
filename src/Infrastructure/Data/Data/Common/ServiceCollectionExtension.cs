@@ -1,4 +1,5 @@
-﻿using FluentMigrator.Runner.Processors;
+﻿using FluentMigrator.Runner;
+using FluentMigrator.Runner.Processors;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
